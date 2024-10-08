@@ -1,4 +1,4 @@
-# EX-10:OPENING--AND-CLOSING
+# OPENING--AND-CLOSING
 ## Aim
 To implement Opening and Closing using Python and OpenCV.
 
@@ -6,79 +6,90 @@ To implement Opening and Closing using Python and OpenCV.
 1. Anaconda - Python 3.7
 2. OpenCV
 ## Algorithm:
-### Step-1:Read the Image:
+### Step1: 
+ Import the necessary packages
 
-Load the input color image from a specified path.
-### Step-2:Convert to Grayscale:
 
-Transform the color image into a grayscale format for easier processing.
-### Step-3:Edge Detection:
+### Step2:
+Create the Text using cv2.putText
 
-Apply an edge detection technique to identify the prominent edges in the grayscale image.
-### Step-4:Create Structuring Element:
+### Step3:
+Create the structuring element
 
-Define a kernel (structuring element) for use in morphological operations, typically a matrix of ones.
-### Step-6:Morphological Operations:
+### Step4:
+Use Opening operation
 
-Perform morphological operations:<br>
-Opening: Remove small objects from the edges to clean up the image.<br>
-Closing: Fill small holes in the detected edges to enhance the structure.
-### Step-7:Display Results:
-
-Show the original grayscale image, along with the results of the opening and closing operations for visual comparison.
+### Step5:
+Use Closing Operation
 
  
 ## Program:
 ```
-Developed By : Naveen Kumar M
-Reference Number: 212222110028
-```
-# Import the necessary packages
-```
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 ```
-# Create the Text using cv2.putText
+### Step 1: Load the image using cv2.imread()
 ```
-input_image_path = 'cart.jpg'
-color_image = cv2.imread(input_image_path)
-gray_image = cv2.cvtColor(color_image, cv2.COLOR_BGR2GRAY)
-plt.imshow(gray_image,cmap="gray")
-edges = cv2.Canny(gray_image, 100, 200)
-kernel_size = 5
-kernel = np.ones((kernel_size, kernel_size), np.uint8)
-erosion = cv2.erode(edges, kernel, iterations=1)
-dilation = cv2.dilate(edges, kernel, iterations=1)
+image = cv2.imread("Fish.jpg")  
 ```
+### Step 2: Create a structuring element (5x5 rectangular)
+```
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5, 5))
+```
+### Step 3: Use Opening operation (erosion followed by dilation)
+```
+opening_image = cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
+```
+### Step 4: Use Closing operation (dilation followed by erosion)
+```
+closing_image = cv2.morphologyEx(image, cv2.MORPH_CLOSE, kernel)
+```
+### Convert images from BGR to RGB for Matplotlib
+```
+image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+opening_image_rgb = cv2.cvtColor(opening_image, cv2.COLOR_BGR2RGB)
+closing_image_rgb = cv2.cvtColor(closing_image, cv2.COLOR_BGR2RGB)
+```
+### Plot the original, opening, and closing images using Matplotlib
+```
+plt.figure(figsize=(10, 5))
 
-# Create the structuring element
-```
-plt.figure(figsize=(15, 10))
-plt.subplot(2,2,1)
-plt.imshow(gray_image)
-plt.title('Original Color Image')
-plt.axis('off')
-```
-![alt text](image-1.png)
-# Use Opening operation
-```
-opening = cv2.morphologyEx(edges, cv2.MORPH_OPEN, kernel)
-plt.imshow(opening, cmap='gray')
-plt.title('Opening')
-plt.axis('off')
-```
-![alt text](image-2.png)
+plt.subplot(1, 3, 1)
+plt.imshow(image_rgb)
+plt.title("Original Image")
+plt.axis("off")
 
-# Use Closing Operation
-```
-closing = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel)
-plt.imshow(closing, cmap='gray')
-plt.title('Closing')
-plt.axis('off')
+plt.subplot(1, 3, 2)
+plt.imshow(opening_image_rgb)
+plt.title("Opening Operation")
+plt.axis("off")
+
+plt.subplot(1, 3, 3)
+plt.imshow(closing_image_rgb)
+plt.title("Closing Operation")
+plt.axis("off")
+
+plt.tight_layout()
 plt.show()
+
 ```
-![alt text](image-3.png)
+## Output:
+
+### Display the input Image
+![image](https://github.com/user-attachments/assets/c6772ac7-5d88-46ba-9c06-f63c15e3c7ed)
+
+
+### Display the result of Opening
+![image](https://github.com/user-attachments/assets/1dc47e42-1357-449e-9d9b-6984ddb666a6)
+
+
+
+### Display the result of Closing
+![image](https://github.com/user-attachments/assets/4f0cd2c5-bbdd-4cbc-bf99-ab1bc25001be)
+
+
+
 
 ## Result
 Thus the Opening and Closing operation is used in the image using python and OpenCV.
